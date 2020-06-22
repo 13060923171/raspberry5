@@ -19,15 +19,11 @@
 
 温馨提示：最好先把树莓派的python换成3.5以上，不然用2.7安装到你自闭都安装不成功
 
-先是
 
-pip install cmake
 
-pip  install boost
+直接pip install dlib-19.8.1-cp36-cp36m-win_amd64.whl就完事了，不用弄那么多花里胡哨的配置
 
-最后就是
-
-pip install dlib就这样就完事了，如果有其他问题，建议去博客看看相关解答
+注意cp36是对应的python版本3.6版本，其他版本都去网上找对应的版本才行，否则会报错
 
 [dlib的官网](http://dlib.net/files/)
 
