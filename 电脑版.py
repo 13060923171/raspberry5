@@ -30,8 +30,10 @@ def eye_aspect_ratio(eye):
 
 
 # 设置判断参数
+#这个是闭眼睛的ear值就是你闭上和睁开的那个数学参数，当你ear值小于0.3的时候，系统就开始判断，一般这个值只能往小于0.3的去调
 EYE_AR_THRESH = 0.3
-EYE_AR_CONSEC_FRAMES = 3
+#视频的帧数，5代表在这个视频的5帧里面
+EYE_AR_CONSEC_FRAMES = 10
 
 # 初始化计数器
 COUNTER = 0
@@ -40,7 +42,7 @@ TOTAL = 0
 # 检测与定位工具
 print("[INFO] loading facial landmark predictor...")
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("C:\\Users\\96075\\Desktop\\zy\\Python\\test\\blink-detection\\shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("C:\\Users\\96075\\Desktop\\zy\\Python\\wenjian\\blink-detection\\shape_predictor_68_face_landmarks.dat")
 
 # 分别取两个眼睛区域
 (lStart, lEnd) = FACIAL_LANDMARKS_68_IDXS["left_eye"]
@@ -48,7 +50,7 @@ predictor = dlib.shape_predictor("C:\\Users\\96075\\Desktop\\zy\\Python\\test\\b
 
 # 读取视频
 print("[INFO] starting video stream thread...")
-vs = cv2.VideoCapture("C:\\Users\\96075\\Desktop\\zy\\Python\\test\\blink-detection\\test.mp4")
+vs = cv2.VideoCapture(0)
 time.sleep(1.0)
 
 def shape_to_np(shape, dtype="int"):
@@ -68,7 +70,7 @@ while True:
 		break
 	
 	(h, w) = frame.shape[:2]
-	width=1200
+	width=800
 	r = width / float(w)
 	dim = (width, int(h * r))
 	frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
@@ -116,11 +118,11 @@ while True:
 		cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
 			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
-	cv2.imshow("Frame", frame)
-	key = cv2.waitKey(1) & 0xFF
- 
-	if key == 27:
-		break
+		cv2.imshow("Frame", frame)
+		key = cv2.waitKey(1) & 0xFF
+		# 按'q'健退出循环
+		if key == ord('q'):
+			break
 
 vs.release()
 cv2.destroyAllWindows()
